@@ -24,15 +24,14 @@ public class SetupDomain {
 		pb.addPerson(person);
 		person.addContact(new Contact("SOS", 112));
 		Contact c = new Contact("IST", 214315112);
-		c.setPerson(person);
+		person.addContact(c);
 
 		try {
 			c = new Contact("IST", 214315112);
-			c.setPerson(person);
+			person.addContact(c);
 			logger.error("Error! Business rule violated!");
 		} catch (pt.tecnico.phonebook.exception.NameAlreadyExistsException nae) {
-			System.out
-					.println("Could not add two equals contacts to the same person");
+			logger.error("Could not add two equals contacts to the same person");
 		}
 	}
 }

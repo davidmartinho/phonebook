@@ -22,7 +22,7 @@ relation DomainRootHasPhoneBookApplication {
 
 relation PersonContainsContacts {
   Person playsRole person;
-  Contact playsRole contact {
+  protected Contact playsRole contact {
     multiplicity *;
   }
 }

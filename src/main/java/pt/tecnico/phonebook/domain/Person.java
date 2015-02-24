@@ -15,14 +15,17 @@ public class Person extends Person_Base {
 	}
 
 	private Optional<Contact> getContactByName(String name) {
-		return getContactSet().stream().filter(contact -> contact.equals(name))
+		return getContactSet().stream().filter(contact -> contact.getName().equals(name))
 				.findAny();
 	}
 
 	@Override
-	public void addContact(Contact contactToBeAdded) throws NameAlreadyExistsException {
-		if (hasContact(contactToBeAdded.getName()))
-			super.addContact(contactToBeAdded);
+	public void addContact(Contact contactToBeAdded)
+			throws NameAlreadyExistsException {
+		if (hasContact(contactToBeAdded.getName())) {
+			throw new NameAlreadyExistsException(contactToBeAdded.getName());
+		}
+		super.addContact(contactToBeAdded);
 	}
 
 	public boolean matchesName(String token) {

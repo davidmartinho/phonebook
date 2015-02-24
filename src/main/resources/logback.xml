@@ -8,7 +8,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="pt.tecnico.phonebook" level="ERROR">
+	<logger name="pt.tecnico.phonebook" level="INFO">
 	</logger>
 
 	<root level="ERROR">

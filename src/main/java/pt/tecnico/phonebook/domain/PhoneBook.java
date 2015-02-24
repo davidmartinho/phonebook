@@ -3,6 +3,8 @@ package pt.tecnico.phonebook.domain;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.phonebook.exception.PersonDoesNotExistException;
 
@@ -13,13 +15,20 @@ public class PhoneBook extends PhoneBook_Base {
 	}
 
 	public static PhoneBook getInstance() {
-		PhoneBook pb = FenixFramework.getDomainRoot().getPhonebook();
-		if (pb == null)
-			pb = new PhoneBook();
-
-		return pb;
+    	if (FenixFramework.getDomainRoot().getPhonebook() == null) {
+			return initialize();
+		}
+    	return FenixFramework.getDomainRoot().getPhonebook();
 	}
 
+    @Atomic(mode = TxMode.WRITE)
+    private static PhoneBook initialize() {
+    	if (FenixFramework.getDomainRoot().getPhonebook() == null) {
+            return new PhoneBook();
+        }
+        return FenixFramework.getDomainRoot().getPhonebook();
+    }
+	
 	private Optional<Person> getPersonByName(String name) {
 		return getPersonSet().stream().filter(person -> person.hasName(name)).findAny();
 	}
